@@ -1,0 +1,12 @@
+// Listen for status updates
+sock.ev.on('presence.update', async (update) => {
+    const jid = update.id; // user ID
+    const statusType = update.type; // e.g., "status"
+    if(statusType === 'status') {
+        console.log(`${jid} posted a new status!`);
+        // To react: WhatsApp API requires sending a reaction message
+        await sock.sendMessage(jid + '@s.whatsapp.net', { 
+            react: { text: '👍', key: { remoteJid: jid + '@s.whatsapp.net', fromMe: true, id: 'status-id-here' } }
+        });
+    }
+});
